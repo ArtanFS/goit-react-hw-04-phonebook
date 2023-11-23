@@ -1,9 +1,9 @@
 import ContactListItem from '../ContactListItem';
-import { List } from './ContactList.styled';
+import css from './ContactList.module.css';
 
 const ContactList = ({ contacts, deleteContact }) => {
   return (
-    <List>
+    <ul className={css.list}>
       {contacts.map(el => (
         <ContactListItem
           key={el.id}
@@ -11,7 +11,7 @@ const ContactList = ({ contacts, deleteContact }) => {
           deleteContact={deleteContact}
         />
       ))}
-    </List>
+    </ul>
   );
 };
 
