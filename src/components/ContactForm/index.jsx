@@ -1,54 +1,60 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import css from './ContactForm.module.css';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+const ContactForm = ({ addContact }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.addContact(this.state);
-    this.setState({ name: '', number: '' });
+    addContact({ name, number });
+    setName('');
+    setNumber('');
   };
 
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
+  const handleChange = e => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <form className={css.contact_form} onSubmit={this.handleSubmit}>
-        <div className={css.contact_form_item}>
-          <label htmlFor="inputName">Name</label>
-          <input
-            name="name"
-            type="text"
-            id="inputName"
-            value={name}
-            onChange={this.handleChange}
-            required
-            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          />
-        </div>
-        <div className={css.contact_form_item}>
-          <label htmlFor="inputNumber">Number</label>
-          <input
-            name="number"
-            type="tel"
-            id="inputNumber"
-            value={number}
-            onChange={this.handleChange}
-            required
-            pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
-          />
-        </div>
-        <button type="submit">Add contact</button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className={css.contact_form} onSubmit={handleSubmit}>
+      <div className={css.contact_form_item}>
+        <label htmlFor="inputName">Name</label>
+        <input
+          name="name"
+          type="text"
+          id="inputName"
+          value={name}
+          onChange={handleChange}
+          required
+          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        />
+      </div>
+      <div className={css.contact_form_item}>
+        <label htmlFor="inputNumber">Number</label>
+        <input
+          name="number"
+          type="tel"
+          id="inputNumber"
+          value={number}
+          onChange={handleChange}
+          required
+          pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+        />
+      </div>
+      <button type="submit">Add contact</button>
+    </form>
+  );
+};
 
 export default ContactForm;

@@ -6,22 +6,13 @@ import Filter from './Filter';
 import css from './Container.module.css';
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(window.localStorage.getItem('contacts')) ?? ''
+  );
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const localContacts = localStorage.getItem('contacts');
-    console.log('localContacts', localContacts);
-    console.log('JSON.P', JSON.parse(localContacts));
-
-    if (localContacts) setContacts(JSON.parse(localContacts));
-  }, []);
-
-  useEffect(() => {
-    if (contacts) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-      console.log('JSONs', JSON.stringify(contacts));
-    }
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const addContact = newContact => {
